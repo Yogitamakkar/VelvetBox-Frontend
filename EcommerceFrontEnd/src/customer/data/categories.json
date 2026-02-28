@@ -1,0 +1,556 @@
+[
+  {
+    "id": "L1_1",
+    "name": "Occasions",
+    "children": [
+      {
+        "id": "L2_1_1",
+        "name": "Birthday",
+        "children": [
+          {
+            "id": "L3_1_1_1",
+            "name": "Birthday Gifts for Him"
+          },
+          {
+            "id": "L3_1_1_2",
+            "name": "Birthday Gifts for Her"
+          },
+          {
+            "id": "L3_1_1_3",
+            "name": "Milestone Birthdays"
+          }
+        ]
+      },
+      {
+        "id": "L2_1_2",
+        "name": "Anniversary",
+        "children": [
+          {
+            "id": "L3_1_2_1",
+            "name": "Anniversary Gifts for Couples"
+          },
+          {
+            "id": "L3_1_2_2",
+            "name": "Wedding Anniversary Gifts"
+          },
+          {
+            "id": "L3_1_2_3",
+            "name": "Engagement Anniversary Gifts"
+          }
+        ]
+      },
+      {
+        "id": "L2_1_3",
+        "name": "Wedding & Engagement",
+        "children": [
+          {
+            "id": "L3_1_3_1",
+            "name": "Wedding Gifts for Couple"
+          },
+          {
+            "id": "L3_1_3_2",
+            "name": "Bridal Shower Gifts"
+          },
+          {
+            "id": "L3_1_3_3",
+            "name": "Engagement Gifts"
+          }
+        ]
+      },
+      {
+        "id": "L2_1_4",
+        "name": "New Baby",
+        "children": [
+          {
+            "id": "L3_1_4_1",
+            "name": "Baby Shower Gifts"
+          },
+          {
+            "id": "L3_1_4_2",
+            "name": "Gifts for New Parents"
+          },
+          {
+            "id": "L3_1_4_3",
+            "name": "Baby Boy Gifts"
+          },
+          {
+            "id": "L3_1_4_4",
+            "name": "Baby Girl Gifts"
+          }
+        ]
+      },
+      {
+        "id": "L2_1_5",
+        "name": "Housewarming",
+        "children": [
+          {
+            "id": "L3_1_5_1",
+            "name": "Home Decor Gifts"
+          },
+          {
+            "id": "L3_1_5_2",
+            "name": "Kitchen & Dining Gifts"
+          },
+          {
+            "id": "L3_1_5_3",
+            "name": "Personalized Housewarming Gifts"
+          }
+        ]
+      },
+      {
+        "id": "L2_1_6",
+        "name": "Graduation",
+        "children": [
+          {
+            "id": "L3_1_6_1",
+            "name": "High School Graduation Gifts"
+          },
+          {
+            "id": "L3_1_6_2",
+            "name": "College Graduation Gifts"
+          },
+          {
+            "id": "L3_1_6_3",
+            "name": "Graduation Keepsakes"
+          }
+        ]
+      },
+      {
+        "id": "L2_1_7",
+        "name": "Thank You",
+        "children": [
+          {
+            "id": "L3_1_7_1",
+            "name": "Thank You Gifts for Teachers"
+          },
+          {
+            "id": "L3_1_7_2",
+            "name": "Thank You Gifts for Colleagues"
+          },
+          {
+            "id": "L3_1_7_3",
+            "name": "Small Thank You Gifts"
+          }
+        ]
+      },
+      {
+        "id": "L2_1_8",
+        "name": "Get Well Soon",
+        "children": [
+          {
+            "id": "L3_1_8_1",
+            "name": "Comfort Gifts"
+          },
+          {
+            "id": "L3_1_8_2",
+            "name": "Care Packages"
+          },
+          {
+            "id": "L3_1_8_3",
+            "name": "Flowers for Get Well"
+          }
+        ]
+      },
+      {
+        "id": "L2_1_9",
+        "name": "Just Because",
+        "children": [
+          {
+            "id": "L3_1_9_1",
+            "name": "Spontaneous Gifts"
+          },
+          {
+            "id": "L3_1_9_2",
+            "name": "Small Tokens of Appreciation"
+          },
+          {
+            "id": "L3_1_9_3",
+            "name": "Surprise Gifts"
+          }
+        ]
+      },
+      {
+        "id": "L2_1_10",
+        "name": "Festivals",
+        "children": [
+          {
+            "id": "L3_1_10_1",
+            "name": "Diwali Gifts"
+          },
+          {
+            "id": "L3_1_10_2",
+            "name": "Christmas Gifts"
+          },
+          {
+            "id": "L3_1_10_3",
+            "name": "Eid Gifts"
+          },
+          {
+            "id": "L3_1_10_4",
+            "name": "Holi Gifts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "L1_2",
+    "name": "Recipients",
+    "children": [
+      {
+        "id": "L2_2_1",
+        "name": "For Her",
+        "children": [
+          {
+            "id": "L3_2_1_1",
+            "name": "Jewellery & Accessories"
+          },
+          {
+            "id": "L3_2_1_2",
+            "name": "Beauty & Skincare"
+          },
+          {
+            "id": "L3_2_1_3",
+            "name": "Home Decor for Her"
+          }
+        ]
+      },
+      {
+        "id": "L2_2_2",
+        "name": "For Him",
+        "children": [
+          {
+            "id": "L3_2_2_1",
+            "name": "Gadgets for Him"
+          },
+          {
+            "id": "L3_2_2_2",
+            "name": "Apparel & Accessories for Him"
+          },
+          {
+            "id": "L3_2_2_3",
+            "name": "Grooming Kits"
+          }
+        ]
+      },
+      {
+        "id": "L2_2_3",
+        "name": "For Kids (Boys)",
+        "children": [
+          {
+            "id": "L3_2_3_1",
+            "name": "Action Figures & Toys"
+          },
+          {
+            "id": "L3_2_3_2",
+            "name": "Building Blocks & STEM"
+          },
+          {
+            "id": "L3_2_3_3",
+            "name": "Outdoor Play"
+          }
+        ]
+      },
+      {
+        "id": "L2_2_4",
+        "name": "For Kids (Girls)",
+        "children": [
+          {
+            "id": "L3_2_4_1",
+            "name": "Dolls & Playsets"
+          },
+          {
+            "id": "L3_2_4_2",
+            "name": "Art & Craft Kits"
+          },
+          {
+            "id": "L3_2_4_3",
+            "name": "Fashion & Dress-Up"
+          }
+        ]
+      },
+      {
+        "id": "L2_2_5",
+        "name": "For Babies",
+        "children": [
+          {
+            "id": "L3_2_5_1",
+            "name": "Baby Clothes & Accessories"
+          },
+          {
+            "id": "L3_2_5_2",
+            "name": "Baby Toys & Rattles"
+          },
+          {
+            "id": "L3_2_5_3",
+            "name": "Nursery Decor"
+          }
+        ]
+      },
+      {
+        "id": "L2_2_6",
+        "name": "For Couples",
+        "children": [
+          {
+            "id": "L3_2_6_1",
+            "name": "Romantic Gifts"
+          },
+          {
+            "id": "L3_2_6_2",
+            "name": "Shared Experiences"
+          },
+          {
+            "id": "L3_2_6_3",
+            "name": "Home & Living for Couples"
+          }
+        ]
+      },
+      {
+        "id": "L2_2_7",
+        "name": "For Parents (Mom)",
+        "children": [
+          {
+            "id": "L3_2_7_1",
+            "name": "Relaxation Gifts for Mom"
+          },
+          {
+            "id": "L3_2_7_2",
+            "name": "Personalized Gifts for Mom"
+          },
+          {
+            "id": "L3_2_7_3",
+            "name": "Kitchen & Home Gifts for Mom"
+          }
+        ]
+      },
+      {
+        "id": "L2_2_8",
+        "name": "For Parents (Dad)",
+        "children": [
+          {
+            "id": "L3_2_8_1",
+            "name": "Tech Gifts for Dad"
+          },
+          {
+            "id": "L3_2_8_2",
+            "name": "Hobby-Related Gifts for Dad"
+          },
+          {
+            "id": "L3_2_8_3",
+            "name": "Personalized Gifts for Dad"
+          }
+        ]
+      },
+      {
+        "id": "L2_2_9",
+        "name": "For Friends",
+        "children": [
+          {
+            "id": "L3_2_9_1",
+            "name": "Funny Gifts for Friends"
+          },
+          {
+            "id": "L3_2_9_2",
+            "name": "Friendship Bracelets & Keepsakes"
+          },
+          {
+            "id": "L3_2_9_3",
+            "name": "Experience Gifts with Friends"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "L1_3",
+    "name": "Personalized",
+    "children": [
+      {
+        "id": "L2_3_1",
+        "name": "Personalized Photo Gifts",
+        "children": [
+          {
+            "id": "L3_3_1_1",
+            "name": "Personalized Photo Frames"
+          },
+          {
+            "id": "L3_3_1_2",
+            "name": "Personalized Photo Mugs"
+          },
+          {
+            "id": "L3_3_1_3",
+            "name": "Personalized Photo Blankets"
+          }
+        ]
+      },
+      {
+        "id": "L2_3_2",
+        "name": "Engraved Gifts",
+        "children": [
+          {
+            "id": "L3_3_2_1",
+            "name": "Engraved Jewellery"
+          },
+          {
+            "id": "L3_3_2_2",
+            "name": "Engraved Wallets & Accessories"
+          },
+          {
+            "id": "L3_3_2_3",
+            "name": "Engraved Drinkware"
+          }
+        ]
+      },
+      {
+        "id": "L2_3_3",
+        "name": "Custom Apparel & Accessories",
+        "children": [
+          {
+            "id": "L3_3_3_1",
+            "name": "Custom T-Shirts & Hoodies"
+          },
+          {
+            "id": "L3_3_3_2",
+            "name": "Customized Hats & Caps"
+          },
+          {
+            "id": "L3_3_3_3",
+            "name": "Custom Bags & Totes"
+          }
+        ]
+      },
+      {
+        "id": "L2_3_4",
+        "name": "Personalized Home Goods",
+        "children": [
+          {
+            "id": "L3_3_4_1",
+            "name": "Personalized Cushions & Pillows"
+          },
+          {
+            "id": "L3_3_4_2",
+            "name": "Personalized Wall Art"
+          },
+          {
+            "id": "L3_3_4_3",
+            "name": "Personalized Kitchenware"
+          }
+        ]
+      },
+      {
+        "id": "L2_3_5",
+        "name": "Monogrammed Items",
+        "children": [
+          {
+            "id": "L3_3_5_1",
+            "name": "Monogrammed Towels"
+          },
+          {
+            "id": "L3_3_5_2",
+            "name": "Monogrammed Stationery"
+          },
+          {
+            "id": "L3_3_5_3",
+            "name": "Monogrammed Bags"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "L1_4",
+    "name": "New Arrivals",
+    "children": [
+      {
+        "id": "L2_4_1",
+        "name": "New Gifts for Her",
+        "children": [
+          {
+            "id": "L3_4_1_1",
+            "name": "New Arrival Jewellery"
+          },
+          {
+            "id": "L3_4_1_2",
+            "name": "New Arrival Fashion Accessories"
+          },
+          {
+            "id": "L3_4_1_3",
+            "name": "New Arrival Beauty Products"
+          }
+        ]
+      },
+      {
+        "id": "L2_4_2",
+        "name": "New Gifts for Him",
+        "children": [
+          {
+            "id": "L3_4_2_1",
+            "name": "Latest Tech Gadgets"
+          },
+          {
+            "id": "L3_4_2_2",
+            "name": "New Men's Apparel"
+          },
+          {
+            "id": "L3_4_2_3",
+            "name": "New Sports & Outdoor Gear"
+          }
+        ]
+      },
+      {
+        "id": "L2_4_3",
+        "name": "New Home & Decor",
+        "children": [
+          {
+            "id": "L3_4_3_1",
+            "name": "New Kitchenware"
+          },
+          {
+            "id": "L3_4_3_2",
+            "name": "New Decorative Items"
+          },
+          {
+            "id": "L3_4_3_3",
+            "name": "New Furniture & Furnishings"
+          }
+        ]
+      },
+      {
+        "id": "L2_4_4",
+        "name": "New Tech & Gadgets",
+        "children": [
+          {
+            "id": "L3_4_4_1",
+            "name": "New Smart Devices"
+          },
+          {
+            "id": "L3_4_4_2",
+            "name": "New Audio & Visual"
+          },
+          {
+            "id": "L3_4_4_3",
+            "name": "New Gaming Accessories"
+          }
+        ]
+      },
+      {
+        "id": "L2_4_5",
+        "name": "New Personalized Items",
+        "children": [
+          {
+            "id": "L3_4_5_1",
+            "name": "New Custom Photo Gifts"
+          },
+          {
+            "id": "L3_4_5_2",
+            "name": "New Engravable Products"
+          },
+          {
+            "id": "L3_4_5_3",
+            "name": "New Monogram Designs"
+          }
+        ]
+      }
+    ]
+  }
+]

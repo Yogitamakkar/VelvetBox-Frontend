@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Floral Delight Cake",
+    "price": 595,
+    "rating": 4.5,
+    "reviews": 487,
+    "delivery": "30-Min Delivery",
+    "category": "Floral",
+    "image": "/images/floral-cake.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Delicious Truffle Cake",
+    "price": 499,
+    "rating": 4.5,
+    "reviews": 146,
+    "delivery": "30-Min Delivery",
+    "category": "Chocolate",
+    "image": "/images/truffle-cake.jpg"
+  },
+  {
+    "id":3,
+    "name": "Classic Black And White Cake",
+    "image": "https://cdn.igp.com/f_auto,q_auto,t_pnopt18prodlp/products/p-classic-black-and-white-cake-387820-m.jpg",
+    "price": 625,
+    "rating": 5,
+    "reviews": 2,
+    "delivery": "30-Min Delivery",
+    "category":"cakes"
+  }
+]
