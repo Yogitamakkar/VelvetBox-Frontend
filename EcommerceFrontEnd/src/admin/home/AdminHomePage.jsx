@@ -1,5 +1,5 @@
 // src/admin/AdminHomePage.jsx
-import { aCard, aSecTitle, aSecSub, AC } from "./admin.styles";
+import { aCard, aSecTitle, aSecSub, AC } from "../admin.styles";
 
 export default function AdminHomePage() {
   return (
