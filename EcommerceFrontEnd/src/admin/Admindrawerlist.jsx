@@ -1,6 +1,6 @@
 // src/admin/AdminDrawerList.jsx
 import { useLocation, useNavigate } from 'react-router-dom';
-import { AC } from './AdminStyles';
+import { AC } from './admin.styles';
 
 const NAV_ITEMS = [
   { label: 'Dashboard',            icon: '⊞', path: '/admin' },
