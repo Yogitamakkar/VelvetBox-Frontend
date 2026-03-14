@@ -1,42 +1,64 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  TextField,
-  Grid,
-} from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, TextField, Grid } from "@mui/material";
 import * as Yup from "yup";
 
-// Validation schema
 const AddressSchema = Yup.object().shape({
-  fullName: Yup.string().required("Required"),
-  phone: Yup.string().matches(/^[0-9]{10}$/, "Must be 10 digits").required("Required"),
+  fullName:   Yup.string().required("Required"),
+  phone:      Yup.string().matches(/^[0-9]{10}$/, "Must be 10 digits").required("Required"),
   postalCode: Yup.string().required("Required"),
-  street: Yup.string().required("Required"),
-  locality: Yup.string().required("Required"),
-  city: Yup.string().required("Required"),
-  state: Yup.string().required("Required"),
+  street:     Yup.string().required("Required"),
+  locality:   Yup.string().required("Required"),
+  city:       Yup.string().required("Required"),
+  state:      Yup.string().required("Required"),
 });
+
+const inputSx = {
+  '& label.Mui-focused': { color: '#e8006f' },
+  '& .MuiOutlinedInput-root:hover fieldset': { borderColor: '#e8006f' },
+  '& .MuiOutlinedInput-root.Mui-focused fieldset': { borderColor: '#e8006f' },
+};
+
+const F = ({ name, label, errors, touched, xs = 12 }) => (
+  <Grid item xs={xs}>
+    <Field name={name}>
+      {({ field }) => (
+        <TextField
+          {...field}
+          fullWidth
+          label={label}
+          size="small"
+          sx={inputSx}
+          error={touched[name] && !!errors[name]}
+          helperText={touched[name] && errors[name]}
+        />
+      )}
+    </Field>
+  </Grid>
+);
 
 export default function AddressForm({ open, handleClose, handleSubmitAddress }) {
   return (
-    <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
-      <DialogTitle sx={{ textAlign: "center", fontWeight: "bold" }}>Contact Details</DialogTitle>
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      fullWidth
+      maxWidth="sm"
+      PaperProps={{ sx: { borderRadius: '16px', overflow: 'hidden' } }}
+    >
+      {/* Pink header */}
+      <div style={{
+        background: 'linear-gradient(135deg, #e8006f, #ff4da6)',
+        padding: '18px 24px', color: '#fff',
+      }}>
+        <div style={{ fontSize: 18, fontWeight: 700, textAlign: 'center' }}>Add New Address</div>
+        <div style={{ fontSize: 12, textAlign: 'center', opacity: 0.85, marginTop: 4 }}>
+          Fill in your delivery details
+        </div>
+      </div>
 
       <Formik
-        initialValues={{
-          fullName: "",
-          phone: "",
-          postalCode: "",
-          street: "",
-          locality: "",
-          city: "",
-          state: "",
-        }}
+        initialValues={{ fullName: "", phone: "", postalCode: "", street: "", locality: "", city: "", state: "" }}
         validationSchema={AddressSchema}
         onSubmit={(values, { resetForm }) => {
           handleSubmitAddress(values);
@@ -46,93 +68,33 @@ export default function AddressForm({ open, handleClose, handleSubmitAddress }) 
       >
         {({ errors, touched }) => (
           <Form>
-            <DialogContent>
+            <DialogContent sx={{ pt: 2.5 }}>
               <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <Field
-                    name="fullName"
-                    as={TextField}
-                    fullWidth
-                    label="Name"
-                    error={touched.fullName && !!errors.fullName}
-                    helperText={touched.fullName && errors.fullName}
-                  />
-                </Grid>
-
-                <Grid item xs={6}>
-                  <Field
-                    name="phone"
-                    as={TextField}
-                    fullWidth
-                    label="Mobile"
-                    error={touched.phone && !!errors.phone}
-                    helperText={touched.phone && errors.phone}
-                  />
-                </Grid>
-
-                <Grid item xs={6}>
-                  <Field
-                    name="postalCode"
-                    as={TextField}
-                    fullWidth
-                    label="Pin Code"
-                    error={touched.postalCode && !!errors.postalCode}
-                    helperText={touched.postalCode && errors.postalCode}
-                  />
-                </Grid>
-
-                <Grid item xs={12}>
-                  <Field
-                    name="street"
-                    as={TextField}
-                    fullWidth
-                    label="Address (House No, Building, Street)"
-                    error={touched.street && !!errors.street}
-                    helperText={touched.street && errors.street}
-                  />
-                </Grid>
-
-                <Grid item xs={12}>
-                  <Field
-                    name="locality"
-                    as={TextField}
-                    fullWidth
-                    label="Locality/Town"
-                    error={touched.locality && !!errors.locality}
-                    helperText={touched.locality && errors.locality}
-                  />
-                </Grid>
-
-                <Grid item xs={6}>
-                  <Field
-                    name="city"
-                    as={TextField}
-                    fullWidth
-                    label="City"
-                    error={touched.city && !!errors.city}
-                    helperText={touched.city && errors.city}
-                  />
-                </Grid>
-
-                <Grid item xs={6}>
-                  <Field
-                    name="state"
-                    as={TextField}
-                    fullWidth
-                    label="State"
-                    error={touched.state && !!errors.state}
-                    helperText={touched.state && errors.state}
-                  />
-                </Grid>
+                <F name="fullName"   label="Full Name"                              errors={errors} touched={touched} />
+                <F name="phone"      label="Mobile"                    xs={6}        errors={errors} touched={touched} />
+                <F name="postalCode" label="Pin Code"                  xs={6}        errors={errors} touched={touched} />
+                <F name="street"     label="House No, Building, Street"              errors={errors} touched={touched} />
+                <F name="locality"   label="Locality / Town"                         errors={errors} touched={touched} />
+                <F name="city"       label="City"                      xs={6}        errors={errors} touched={touched} />
+                <F name="state"      label="State"                     xs={6}        errors={errors} touched={touched} />
               </Grid>
             </DialogContent>
 
-            <DialogActions sx={{ justifyContent: "center", paddingBottom: 2 }}>
-              <Button onClick={handleClose} color="secondary">
+            <DialogActions sx={{ px: 3, pb: 3, gap: 1 }}>
+              <Button onClick={handleClose} variant="outlined" sx={{
+                flex: 1, borderColor: '#e8006f', color: '#e8006f',
+                borderRadius: '8px', textTransform: 'none', fontWeight: 600,
+                '&:hover': { borderColor: '#c4005d', color: '#c4005d', background: 'rgba(232,0,111,0.04)' },
+              }}>
                 Cancel
               </Button>
-              <Button type="submit" variant="contained" color="primary">
-                Add Address
+              <Button type="submit" variant="contained" sx={{
+                flex: 2, backgroundColor: '#e8006f', borderRadius: '8px',
+                textTransform: 'none', fontWeight: 600, fontSize: '14px',
+                boxShadow: '0 4px 14px rgba(232,0,111,0.35)',
+                '&:hover': { backgroundColor: '#c4005d' },
+              }}>
+                Save Address
               </Button>
             </DialogActions>
           </Form>

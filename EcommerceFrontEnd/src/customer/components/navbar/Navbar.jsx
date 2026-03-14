@@ -5,16 +5,8 @@ import {
   Typography, 
   IconButton, 
   Badge, 
-  Menu, 
-  MenuItem, 
   Button, 
-  Drawer, 
-  List, 
-  ListItem, 
-  ListItemText, 
-  ListItemIcon, 
   InputBase, 
-  Divider, 
   Avatar, 
   Box, 
   useTheme, 
@@ -26,142 +18,211 @@ import {
   ShoppingCart as ShoppingCartIcon,
   Favorite as FavoriteIcon,
   AccountCircle as AccountCircleIcon,
-  Close as CloseIcon
 } from '@mui/icons-material';
 import CategoryBar from '../category/CategoryBar';
 import CustomDrawer from './CustomDrawer';
 import CategoryMegaMenu from '../category/CategoryMegaMenu';
-import Logo from '../logo/Logo';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useCart } from '../../../context/CartContext';
+import { useWishlist } from '../../../context/WishlistContext';
+import { useAuth } from '../../../auth/AuthContext';
 
-const Navbar = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
+// Pages that use a dark background
+const DARK_ROUTES = ['/become-seller'];
+
+const Navbar = ({ forceLight = false }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+  const isDark = !forceLight && DARK_ROUTES.some(route => location.pathname.startsWith(route));
+  const { totalItems: cartCount } = useCart();
+  const { totalItems: wishlistCount } = useWishlist();
+  const { isLoggedIn } = useAuth();
 
-  const menuId = 'profile-account-menu';
-  // const renderMenu = (
-  //   <Menu
-  //     anchorEl={anchorEl}
-  //     id={menuId}
-  //     keepMounted
-  //     open={Boolean(anchorEl)}
-  //     onClose={handleMenuClose}
-  //   >
-  //     <MenuItem onClick={handleMenuClose}>My Account</MenuItem>
-  //     <MenuItem onClick={handleMenuClose}>My Orders</MenuItem>
-  //     <MenuItem onClick={handleMenuClose}>Wishlist</MenuItem>
-  //     <MenuItem onClick={handleMenuClose}>Become Seller</MenuItem>
-  //     <MenuItem onClick={handleMenuClose}>Sign Out</MenuItem>
-      
-  //   </Menu>
-  // );
+  const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
+
+  // Theme tokens
+  const bg = isDark ? '#0d0a10' : '#ffffff';
+  const textColor = isDark ? '#ffffff' : '#111111';
+  const subTextColor = isDark ? 'rgba(255,255,255,0.5)' : '#6b7280';
+  const borderColor = isDark ? 'rgba(255,255,255,0.08)' : '#e5e7eb';
+  const searchBg = isDark ? 'rgba(255,255,255,0.07)' : '#f3f4f6';
+  const searchBorder = isDark ? 'rgba(255,255,255,0.12)' : '#d1d5db';
+  const iconColor = isDark ? 'rgba(255,255,255,0.75)' : '#374151';
+  const promoBg = isDark ? '#1a0814' : '#e8006f';
 
   return (
-    <div className="flex flex-col">
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
       {/* Promo Banner */}
-      <div className="bg-pink-600 text-white py-2 text-center text-sm">
+      <div style={{
+        backgroundColor: promoBg,
+        color: isDark ? 'rgba(255,255,255,0.7)' : '#ffffff',
+        padding: '8px 0',
+        textAlign: 'center',
+        fontSize: '13px',
+        borderBottom: isDark ? '1px solid rgba(232,0,111,0.2)' : 'none',
+        letterSpacing: '0.02em',
+      }}>
         Free shipping on orders over $50 | Use code GIFT10 for 10% off
       </div>
-      
-      <AppBar position="static" color="default" elevation={0} className="bg-white">
-        <Toolbar>
+
+      <AppBar
+        position="static"
+        elevation={0}
+        sx={{
+          backgroundColor: bg,
+          borderBottom: `1px solid ${borderColor}`,
+          transition: 'background-color 0.3s ease, border-color 0.3s ease',
+        }}
+      >
+        <Toolbar sx={{ gap: 0.5, flexWrap: 'nowrap', minHeight: '64px !important', px: { xs: 1, sm: 2 } }}>
           {isMobile ? (
             <>
               <IconButton
                 edge="start"
-                color="inherit"
-                aria-label="open drawer"
                 onClick={handleDrawerToggle}
-                className="lg:hidden"
+                sx={{ color: iconColor }}
               >
                 <MenuIcon />
               </IconButton>
-              <Box sx={{ flexGrow: 1 }} className="flex justify-center" >
-                <Typography variant="h6" className="font-bold text-pink-600">
-                  Gift Haven
+              <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
+                <Typography
+                  variant="h6"
+                  onClick={() => navigate('/')}
+                  sx={{
+                    fontWeight: 700,
+                    color: isDark ? '#e8006f' : '#e8006f',
+                    cursor: 'pointer',
+                    fontFamily: 'Georgia, serif',
+                  }}
+                >
+                  Velvet Box
                 </Typography>
               </Box>
             </>
           ) : (
             <>
-              {/* <Typography variant="h6" className="font-bold text-pink-600 mr-6">
-                Gift Haven
-              </Typography> */}
-              {/* <div className='max-w-35 max-h-3' >
-                <Logo/>
-              </div> */}
-              <Typography >
-                <h1 onClick={()=>navigate("/")} className='cursor-pointer'>Velvet Box</h1>
+              <Typography
+                onClick={() => navigate('/')}
+                sx={{
+                  cursor: 'pointer',
+                  fontWeight: 700,
+                  fontSize: '1.1rem',
+                  color: textColor,
+                  fontFamily: 'Georgia, serif',
+                  mr: 1,
+                  whiteSpace: 'nowrap',
+                  transition: 'color 0.3s',
+                  '&:hover': { color: '#e8006f' },
+                }}
+              >
+                Velvet Box
               </Typography>
-              
-              <CategoryMegaMenu/>
+
+              <CategoryMegaMenu isDark={isDark} />
             </>
           )}
 
           <Box sx={{ flexGrow: 1 }} />
-          
+
+          {/* Search */}
           {!isMobile && (
-            <div className="relative mx-4 w-64 border border-gray-400 rounded-lg">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <SearchIcon className="text-gray-400" />
-              </div>
+            <div style={{
+              position: 'relative',
+              width: '220px',
+              border: `1px solid ${searchBorder}`,
+              borderRadius: '10px',
+              backgroundColor: searchBg,
+              display: 'flex',
+              alignItems: 'center',
+              padding: '2px 12px',
+              transition: 'all 0.3s',
+            }}>
+              <SearchIcon style={{ color: subTextColor, fontSize: 18, marginRight: 8 }} />
               <InputBase
                 placeholder="Search for gifts..."
-                className="bg-gray-100 pl-10 pr-3 py-1 rounded-lg w-full "
+                sx={{
+                  fontSize: '14px',
+                  color: textColor,
+                  width: '100%',
+                  '& ::placeholder': { color: subTextColor, opacity: 1 },
+                }}
               />
             </div>
           )}
 
-          <div className="flex items-center">
-            <IconButton aria-label="show wishlist" color="inherit">
-              <Badge badgeContent={3} color="secondary">
-                <FavoriteIcon />
+          {/* Icons */}
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <IconButton sx={{ color: iconColor }}>
+              <Badge badgeContent={wishlistCount} color="error">
+                <FavoriteIcon fontSize="small" />
               </Badge>
             </IconButton>
-            
-            <IconButton aria-label="show cart items" color="inherit" className="mx-2" onClick={()=>navigate('/cart')}>
-              <Badge badgeContent={4} color="secondary">
-                <ShoppingCartIcon />
+
+            <IconButton sx={{ color: iconColor }} onClick={() => navigate('/cart')}>
+              <Badge badgeContent={cartCount} color="error">
+                <ShoppingCartIcon fontSize="small" />
               </Badge>
             </IconButton>
-            
+
             <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={()=>navigate("/account")}
-              color="inherit"
+              onClick={() => navigate(isLoggedIn ? '/account' : '/auth')}
+              sx={{ color: iconColor }}
             >
-              <Avatar className="w-8 h-8 bg-pink-100 text-pink-600 mr-2">
-                <AccountCircleIcon />
+              <Avatar
+                sx={{
+                  width: 32,
+                  height: 32,
+                  bgcolor: isDark ? 'rgba(232,0,111,0.15)' : '#fce7f3',
+                  color: '#e8006f',
+                }}
+              >
+                <AccountCircleIcon fontSize="small" />
               </Avatar>
             </IconButton>
+
             {!isMobile && (
-                <Button className="bg-pink-400 ml-0.5" variant='outlined'>
-                become seller
-                </Button>
-              )}
+              <Button
+                onClick={() => navigate('/become-seller')}
+                variant="contained"
+                sx={{
+                  ml: 1,
+                  backgroundColor: '#e8006f',
+                  color: '#fff',
+                  fontWeight: 600,
+                  fontSize: '13px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
+                  borderRadius: '8px',
+                  px: 2,
+                  py: 0.8,
+                  whiteSpace: 'nowrap',
+                  minWidth: 'auto',
+                  boxShadow: isDark
+                    ? '0 0 20px rgba(232,0,111,0.35)'
+                    : '0 2px 8px rgba(232,0,111,0.3)',
+                  '&:hover': {
+                    backgroundColor: '#c4005d',
+                    boxShadow: '0 4px 16px rgba(232,0,111,0.5)',
+                  },
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                Become Seller
+              </Button>
+            )}
           </div>
         </Toolbar>
       </AppBar>
-      
-      {/* Using CustomDrawer component instead of inline drawer */}
-      <CustomDrawer 
+
+      <CustomDrawer
         textColorIcon="oklch(0.59 0.25 0.58 / 1)"
         mobileOpen={mobileOpen}
         handleDrawerToggle={handleDrawerToggle}
       />
-      
-      {/* {renderMenu} */}
     </div>
   );
 };

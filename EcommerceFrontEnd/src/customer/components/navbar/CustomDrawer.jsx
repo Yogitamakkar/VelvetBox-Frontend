@@ -5,6 +5,7 @@ import {
   InputBase,
   List,
   ListItem,
+  ListItemButton,
   ListItemIcon,
   ListItemText,
   Typography,
@@ -20,7 +21,7 @@ import {
 
 export default function CustomDrawer({
   children,
-  textColorIcon = "#4d194d", 
+  textColorIcon = "#4d194d",
   className,
   categories = [],
   mobileOpen,
@@ -52,38 +53,38 @@ export default function CustomDrawer({
       </div>
       <Divider className="my-3" />
       <List>
-        <ListItem button>
+        <ListItemButton>
           <ListItemIcon>
             <CardGiftcardIcon style={{ color: textColorIcon }} />
           </ListItemIcon>
           <ListItemText primary="Shop All Gifts" />
-        </ListItem>
+        </ListItemButton>
 
         {categories.map((category) => (
-          <ListItem button key={category.name}>
+          <ListItemButton key={category.name}>
             <ListItemIcon>
               {React.cloneElement(category.icon, {
                 style: { color: textColorIcon },
               })}
             </ListItemIcon>
             <ListItemText primary={category.name} />
-          </ListItem>
+          </ListItemButton>
         ))}
       </List>
       <Divider className="my-3" />
       <List>
-        <ListItem button>
+        <ListItemButton>
           <ListItemIcon>
             <AccountCircleIcon style={{ color: textColorIcon }} />
           </ListItemIcon>
           <ListItemText primary="My Account" />
-        </ListItem>
-        <ListItem button>
+        </ListItemButton>
+        <ListItemButton>
           <ListItemIcon>
             <FavoriteIcon style={{ color: textColorIcon }} />
           </ListItemIcon>
           <ListItemText primary="Wishlist" />
-        </ListItem>
+        </ListItemButton>
       </List>
     </div>
   );
