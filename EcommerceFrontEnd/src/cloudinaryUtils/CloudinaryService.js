@@ -96,7 +96,7 @@ export const transforms = {
 // ── Delete via your Spring Boot backend (needs auth) ─────────────────────────
 // Your backend should call Cloudinary Admin API with the signed delete
 export async function deleteImage(publicId, jwt) {
-  const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
   const res = await fetch(`${BASE_URL}/media/delete`, {
     method:  'DELETE',
     headers: {

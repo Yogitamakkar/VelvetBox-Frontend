@@ -1,87 +1,74 @@
 import ReviewCard from "../../components/review/ReviewCard";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { reviewApi, mapReview } from '../../../api/api';
 
 import {
   Box,
-  Card,
-  CardContent,
   Typography,
   Button,
-  Chip,
-  Avatar,
   Rating,
-  TextField,
-  InputAdornment,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Grid,
-  Paper,
   LinearProgress,
-  IconButton,
-  Divider,
   Stack,
-  Container
+  Container,
+  Paper,
+  Grid,
+  CircularProgress,
 } from '@mui/material';
-import {
-  Search as SearchIcon,
-  FilterList as FilterIcon,
-  ThumbUp as ThumbUpIcon,
-  Reply as ReplyIcon,
-  Flag as FlagIcon,
-  MoreVert as MoreVertIcon,
-  Edit as EditIcon,
-  Verified as VerifiedIcon
-} from '@mui/icons-material';
-
+import { Edit as EditIcon } from '@mui/icons-material';
 
 const ProductReviewPage = () => {
+  const { productId } = useParams();
+  const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const reviewStats = {
-    averageRating: 4.8,
-    totalReviews: 2847,
-    distribution: [
-      { stars: 5, count: 1824, percentage: 64 },
-      { stars: 4, count: 710, percentage: 25 },
-      { stars: 3, count: 227, percentage: 8 },
-      { stars: 2, count: 57, percentage: 2 },
-      { stars: 1, count: 29, percentage: 1 }
-    ]
-  };
+  useEffect(() => {
+    if (!productId) return;
+    let cancelled = false;
+    setLoading(true);
 
-  const allReviews = [
-    {
-      id: 1, userName: "Sarah M.", avatar: "SM", rating: 5, date: "2 days ago", verified: true,
-      title: "Exceptional Audio Quality!", 
-      content: "These headphones exceeded my expectations. The noise cancellation is phenomenal, and the battery life is exactly as advertised. I use them daily for work calls and music, and they're incredibly comfortable even after hours of use.",
-      helpful: 45, images: ['headphone1.jpg'], replies: 3
-    },
-    {
-      id: 2, userName: "Mike D.", avatar: "MD", rating: 5, date: "1 week ago", verified: true,
-      title: "Worth every penny", 
-      content: "I've been using these for music production and they're incredible. The frequency response is flat and accurate, which is exactly what I need for mixing. The noise isolation helps me focus.",
-      helpful: 32, images: [], replies: 1
-    },
-    {
-      id: 3, userName: "Emily R.", avatar: "ER", rating: 4, date: "2 weeks ago", verified: true,
-      title: "Great but could be better", 
-      content: "Overall very satisfied with the purchase. Sound quality is excellent and noise cancellation works well. My only complaint is that the headband could be a bit more padded for extended wear.",
-      helpful: 28, images: [], replies: 0
-    },
-    {
-      id: 4, userName: "James K.", avatar: "JK", rating: 5, date: "3 weeks ago", verified: true,
-      title: "Perfect for travel", 
-      content: "These have been a game-changer for my frequent flights. The noise cancellation makes airplane noise disappear completely. Battery life easily lasts my longest flights.",
-      helpful: 22, images: ['travel.jpg'], replies: 2
-    },
-    {
-      id: 5, userName: "Lisa P.", avatar: "LP", rating: 3, date: "1 month ago", verified: false,
-      title: "Good but not great", 
-      content: "They sound good and the build quality seems solid, but I expected more from the noise cancellation given the price point. They're comfortable and look nice.",
-      helpful: 15, images: [], replies: 5
-    }
-  ];
+    reviewApi.getByProduct(productId)
+      .then((data) => {
+        if (cancelled) return;
+        setReviews(Array.isArray(data) ? data.map(mapReview) : []);
+      })
+      .catch((err) => {
+        if (!cancelled) setError(err.message);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+
+    return () => { cancelled = true; };
+  }, [productId]);
+
+  // Compute stats from actual reviews
+  const totalReviews = reviews.length;
+  const averageRating = totalReviews > 0
+    ? (reviews.reduce((sum, r) => sum + r.rating, 0) / totalReviews).toFixed(1)
+    : 0;
+
+  const distribution = [5, 4, 3, 2, 1].map(stars => {
+    const count = reviews.filter(r => Math.round(r.rating) === stars).length;
+    return { stars, count, percentage: totalReviews > 0 ? Math.round((count / totalReviews) * 100) : 0 };
+  });
+
+  if (loading) {
+    return (
+      <Container maxWidth="lg" sx={{ py: 4, textAlign: 'center' }}>
+        <CircularProgress sx={{ color: '#e8006f' }} />
+      </Container>
+    );
+  }
+
+  if (error) {
+    return (
+      <Container maxWidth="lg" sx={{ py: 4, textAlign: 'center' }}>
+        <Typography color="error">{error}</Typography>
+      </Container>
+    );
+  }
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
@@ -92,9 +79,6 @@ const ProductReviewPage = () => {
             <Typography variant="h3" component="h1" gutterBottom sx={{ fontWeight: 'bold' }}>
               Customer Reviews
             </Typography>
-            <Typography variant="subtitle1" color="text.secondary">
-              Premium Wireless Noise-Cancelling Headphones
-            </Typography>
           </Box>
           <Button
             variant="contained"
@@ -102,9 +86,7 @@ const ProductReviewPage = () => {
             size="large"
             sx={{
               background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-              px: 3,
-              py: 1.5,
-              fontWeight: 'bold'
+              px: 3, py: 1.5, fontWeight: 'bold'
             }}
           >
             Write Review
@@ -113,33 +95,28 @@ const ProductReviewPage = () => {
 
         {/* Stats Overview */}
         <Grid container spacing={4}>
-          {/* Average Rating */}
           <Grid item xs={12} md={4}>
             <Box textAlign={{ xs: 'center', md: 'left' }}>
               <Box display="flex" alignItems="center" justifyContent={{ xs: 'center', md: 'flex-start' }} gap={2} mb={2}>
                 <Typography variant="h2" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
-                  {reviewStats.averageRating}
+                  {averageRating}
                 </Typography>
                 <Box>
-                  <Rating value={reviewStats.averageRating} readOnly size="large" />
+                  <Rating value={Number(averageRating)} readOnly size="large" />
                   <Typography variant="body2" color="text.secondary">
-                    {reviewStats.totalReviews.toLocaleString()} reviews
+                    {totalReviews.toLocaleString()} reviews
                   </Typography>
                 </Box>
               </Box>
-              <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                96% of customers recommend this product
-              </Typography>
             </Box>
           </Grid>
 
-          {/* Rating Distribution */}
           <Grid item xs={12} md={4}>
             <Stack spacing={1}>
-              {reviewStats.distribution.map((item) => (
+              {distribution.map((item) => (
                 <Box key={item.stars} display="flex" alignItems="center" gap={2}>
                   <Typography variant="body2" sx={{ minWidth: 20 }}>
-                    {item.stars}★
+                    {item.stars}{'\u2605'}
                   </Typography>
                   <LinearProgress
                     variant="determinate"
@@ -157,43 +134,38 @@ const ProductReviewPage = () => {
       </Paper>
 
       {/* Reviews Section */}
-      <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold', mb: 3 }}>
-        Most Helpful Reviews
-      </Typography>
-      
-      <Box mb={4}>
-        {allReviews.map((review) => (
-          <ReviewCard
-            key={`full-${review.id}`}
-            review={review}
-            showAvatar={true}
-            showVerified={true}
-            showDate={true}
-            showHelpful={true}
-            showReply={true}
-            showFlag={true}
-            showImages={true}
-            showMoreMenu={true}
-            compact={false}
-          />
-        ))}
-      </Box>
+      {reviews.length > 0 ? (
+        <>
+          <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold', mb: 3 }}>
+            All Reviews
+          </Typography>
+          <Box mb={4}>
+            {reviews.map((review) => (
+              <ReviewCard
+                key={review.id}
+                review={review}
+                showAvatar={true}
+                showVerified={true}
+                showDate={true}
+                showHelpful={true}
+                showReply={true}
+                showFlag={true}
+                showImages={true}
+                showMoreMenu={true}
+                compact={false}
+              />
+            ))}
+          </Box>
+        </>
+      ) : (
+        <Typography sx={{ textAlign: 'center', py: 6, color: 'gray' }}>
+          No reviews yet. Be the first to write one!
+        </Typography>
+      )}
 
-      {/* Load More */}
-      <Box textAlign="center" my={4}>
-        <Button 
-          variant="outlined" 
-          size="large"
-          sx={{ px: 4, py: 1.5, fontWeight: 'bold' }}
-        >
-          Load More Reviews
-        </Button>
-      </Box>
-
-      <Paper 
-        sx={{ 
-          p: 6, 
-          textAlign: 'center',
+      <Paper
+        sx={{
+          p: 6, textAlign: 'center',
           background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
           color: 'white'
         }}
@@ -208,14 +180,9 @@ const ProductReviewPage = () => {
           variant="contained"
           size="large"
           sx={{
-            bgcolor: 'white',
-            color: 'primary.main',
-            px: 4,
-            py: 2,
-            fontWeight: 'bold',
-            '&:hover': {
-              bgcolor: 'grey.100'
-            }
+            bgcolor: 'white', color: 'primary.main',
+            px: 4, py: 2, fontWeight: 'bold',
+            '&:hover': { bgcolor: 'grey.100' }
           }}
         >
           Write Your Review

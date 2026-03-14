@@ -76,9 +76,9 @@ export default function CartPage() {
                   key={item.id}
                   cartItem={item}
                   onUpdateQuantity={(change) =>
-                    updateQuantity(item.id, item.quantity + change)
+                    updateQuantity(item.id, item.quantity + change, item.cartItemId)
                   }
-                  onRemove={() => removeFromCart(item.id)}
+                  onRemove={() => removeFromCart(item.id, item.cartItemId)}
                   onToggleWishlist={() =>
                     toggleWishlist({ id: item.id, name: item.name, price: item.price, image: item.image })
                   }

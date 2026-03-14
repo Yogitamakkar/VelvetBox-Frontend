@@ -1,9 +1,12 @@
 // src/context/CartContext.jsx
+// Hybrid cart: uses backend API when logged in, localStorage when not.
 import React, { createContext, useContext, useReducer, useMemo, useCallback, useEffect } from 'react';
+import { cartApi, mapCartItem } from '../api/api';
 
 const CartContext = createContext(null);
 
 const ACTIONS = {
+  SET:         'SET',
   ADD:         'ADD',
   REMOVE:      'REMOVE',
   UPDATE_QTY:  'UPDATE_QTY',
@@ -12,11 +15,12 @@ const ACTIONS = {
 
 function cartReducer(state, action) {
   switch (action.type) {
+    case ACTIONS.SET:
+      return action.items ?? [];
 
     case ACTIONS.ADD: {
       const existing = state.find(i => i.id === action.item.id);
       if (existing) {
-        // Already in cart — bump quantity
         return state.map(i =>
           i.id === action.item.id
             ? { ...i, quantity: i.quantity + (action.item.quantity || 1) }
@@ -44,7 +48,6 @@ function cartReducer(state, action) {
   }
 }
 
-// Load initial cart from localStorage
 function loadCart() {
   try {
     const saved = localStorage.getItem('vb_cart');
@@ -52,6 +55,10 @@ function loadCart() {
   } catch {
     return [];
   }
+}
+
+function isLoggedIn() {
+  return !!localStorage.getItem('vb_jwt');
 }
 
 export function CartProvider({ children }) {
@@ -62,15 +69,48 @@ export function CartProvider({ children }) {
     localStorage.setItem('vb_cart', JSON.stringify(items));
   }, [items]);
 
-  const addToCart     = useCallback((item)           => dispatch({ type: ACTIONS.ADD,        item }),        []);
-  const removeFromCart = useCallback((id)             => dispatch({ type: ACTIONS.REMOVE,     id }),          []);
-  const updateQuantity = useCallback((id, quantity)   => dispatch({ type: ACTIONS.UPDATE_QTY, id, quantity }), []);
-  const clearCart      = useCallback(()               => dispatch({ type: ACTIONS.CLEAR }),                    []);
+  // Sync from backend when user is logged in
+  useEffect(() => {
+    if (!isLoggedIn()) return;
+    cartApi.get()
+      .then((cart) => {
+        const mapped = (cart.cartItems ?? []).map(mapCartItem).filter(Boolean);
+        if (mapped.length > 0) {
+          dispatch({ type: ACTIONS.SET, items: mapped });
+        }
+      })
+      .catch(() => { /* backend unavailable, use localStorage */ });
+  }, []);
+
+  const addToCart = useCallback((item) => {
+    dispatch({ type: ACTIONS.ADD, item });
+    if (isLoggedIn()) {
+      cartApi.addItem(item.id, item.size, item.quantity || 1).catch(() => {});
+    }
+  }, []);
+
+  const removeFromCart = useCallback((id, cartItemId) => {
+    dispatch({ type: ACTIONS.REMOVE, id });
+    if (isLoggedIn()) {
+      cartApi.removeItem(cartItemId || id).catch(() => {});
+    }
+  }, []);
+
+  const updateQuantity = useCallback((id, quantity, cartItemId) => {
+    dispatch({ type: ACTIONS.UPDATE_QTY, id, quantity });
+    if (isLoggedIn()) {
+      cartApi.updateItem(cartItemId || id, quantity).catch(() => {});
+    }
+  }, []);
+
+  const clearCart = useCallback(() => {
+    dispatch({ type: ACTIONS.CLEAR });
+  }, []);
 
   const value = useMemo(() => {
     const totalItems    = items.reduce((sum, i) => sum + i.quantity, 0);
     const subtotal      = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
-    const deliveryFee   = subtotal > 500 ? 0 : 25;   // free delivery above ₹500
+    const deliveryFee   = subtotal > 500 ? 0 : 25;
     const total         = subtotal + deliveryFee;
 
     return {

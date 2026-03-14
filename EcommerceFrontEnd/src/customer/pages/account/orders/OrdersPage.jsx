@@ -1,89 +1,72 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { CircularProgress, Typography } from "@mui/material";
 import OrderCard from "../../../components/account/order/OrderCard";
 import { useNavigate, useParams } from "react-router-dom";
+import { orderApi, mapOrder } from "../../../../api/api";
 
-export default function OrdersPage({activeTab}){
+export default function OrdersPage({ activeTab }) {
+  const { orderId, orderItemId } = useParams();
+  const navigate = useNavigate();
 
-    const {orderId,orderItemId} = useParams();
-    const navigate = useNavigate();
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-      const orders = [
-    {
-      id: 'ORD-2024-001',
-      status: 'shipped',
-      date: 'Dec 15, 2024',
-      items: [
-        {
-            id : "I-2",
-            name: 'Premium Wireless Headphones',
-            brand: 'AudioTech Pro',
-            size: 'Universal',
-            color: 'Midnight Black',
-            price: 299.99,
-            rating: 4.8,
-            reviews: 1247
-        }
-      ],
-      total: 299.99,
-      estimatedDelivery: 'Dec 18, 2024'
-    },
-    {
-      id: 'ORD-2024-002',
-      status: 'delivered',
-      date: 'Dec 10, 2024',
-      items: [
-        {
-            id:"I-4",
-            name: 'Smart Fitness Watch',
-            brand: 'FitTech',
-            size: '42mm',
-            color: 'Space Gray',
-            price: 249.99,
-            rating: 4.6,
-            reviews: 892
-        }
-      ],
-      total: 249.99,
-      deliveredDate: 'Dec 12, 2024'
-    },
-    {
-      id: 'ORD-2024-003',
-      status: 'cancelled',
-      date: 'Dec 08, 2024',
-      items: [
-        {
-          name: 'Bluetooth Speaker',
-          brand: 'SoundWave',
-          size: 'Portable',
-          color: 'Ocean Blue',
-          price: 89.99,
-          rating: 4.3,
-          reviews: 534
-        }
-      ],
-      total: 89.99,
-      cancelledDate: 'Dec 09, 2024'
-    }
-  ];
+  useEffect(() => {
+    let cancelled = false;
+    setLoading(true);
 
-    // const handleViewDetails = (orderId,orderItemId)=>{
-    //     navigate(`/account/orders/${orderId}/${orderItemId}`)
-    // }
-    return(
-        <section>
-            <div className="space-y-6">
-                {orders.map((order, orderIndex) => (
-                <OrderCard
-                    key={order.id}
-                    order={order}
-                    orderIndex={orderIndex}
-                    // onViewDetails={()=>handleViewDetails(order.id,order.items.id)}
-                    // onBuyAgain={handleBuyAgain}
-                />
-                ))}
-                
-            </div>
-            
-        </section>
-    )
+    orderApi.getUserOrders()
+      .then((data) => {
+        if (cancelled) return;
+        const mapped = (Array.isArray(data) ? data : []).map(mapOrder);
+        setOrders(mapped);
+      })
+      .catch((err) => {
+        if (!cancelled) setError(err.message);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+
+    return () => { cancelled = true; };
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="flex justify-center py-10">
+        <CircularProgress sx={{ color: '#e8006f' }} />
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="text-center py-10">
+        <Typography color="error">{error}</Typography>
+      </section>
+    );
+  }
+
+  if (orders.length === 0) {
+    return (
+      <section className="text-center py-10">
+        <Typography color="text.secondary">No orders yet.</Typography>
+      </section>
+    );
+  }
+
+  return (
+    <section>
+      <div className="space-y-6">
+        {orders.map((order, orderIndex) => (
+          <OrderCard
+            key={order.id}
+            order={order}
+            orderIndex={orderIndex}
+          />
+        ))}
+      </div>
+    </section>
+  );
 }
