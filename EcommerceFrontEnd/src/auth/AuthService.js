@@ -54,8 +54,8 @@ export const authService = {
   },
 
   // ── 4. Signup ────────────────────────────────────────────────────────────
-  signup({ fullName, email, password }) {
-    return post('/auth/signup', { fullName, email, password });
+  signup({ fullName, email, password, otp }) {
+    return post('/auth/signup', { fullName, email, password, otp });
   },
 
   // ── Session ──────────────────────────────────────────────────────────────
