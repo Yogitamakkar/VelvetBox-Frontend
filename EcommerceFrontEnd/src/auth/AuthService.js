@@ -39,8 +39,8 @@ async function post(path, body) {
 
 export const authService = {
   // ── 1. Send OTP ─────────────────────────────────────────────────────────
-  sendOtp({ email, role }) {
-    return post('/auth/sent/login-signup-otp', { email, role });
+  sendOtp({ email, role, purpose }) {
+    return post('/auth/sent/login-signup-otp', { email, role, purpose });
   },
 
   // ── 2. Verify OTP ───────────────────────────────────────────────────────

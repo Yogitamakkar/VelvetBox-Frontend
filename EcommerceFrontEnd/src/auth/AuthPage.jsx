@@ -295,7 +295,7 @@ function SignupForm({ onSwitch, initialEmail, initialStoreName, initialRole }) {
     if (s.password.length < 6)   { set({ error: 'Password must be at least 6 characters' }); return; }
     set({ loading: true, error: '' });
     try {
-      await sendOtp({ email: s.email, role: initialRole || ROLES.CUSTOMER });
+      await sendOtp({ email: s.email, role: initialRole || ROLES.CUSTOMER, purpose: 'signup' });
       set({ step: 'otp', loading: false, countdown: 30 });
     } catch (err) {
       set({ error: err.message, loading: false });
@@ -325,7 +325,7 @@ function SignupForm({ onSwitch, initialEmail, initialStoreName, initialRole }) {
   const resendOtp = async () => {
     set({ otp: '', error: '', loading: true });
     try {
-      await sendOtp({ email: s.email, role: initialRole || ROLES.CUSTOMER });
+      await sendOtp({ email: s.email, role: initialRole || ROLES.CUSTOMER, purpose: 'signup' });
       set({ countdown: 30, loading: false });
     } catch (err) {
       set({ error: err.message, loading: false });
